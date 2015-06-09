@@ -1,0 +1,32 @@
+worker1:
+    build: .
+    links:
+        - redis1
+        - bloom1
+        - rethink1
+    volumes:
+        - .:/code
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+redis1:
+    image: redis
+    expose:
+        - 6379
+bloom1:
+    image: saidimu/bloomd:v0.7.4
+    expose:
+        - 8673
+    volumes:
+        - bloomd_config:/etc/bloomd
+rethink1:
+    image: rethinkdb
+    expose:
+        - 28015
+        - 29015
+    ports:
+        - "8080:8080"
+    volumes:
+        - rethinkdb_data:/data
+
+

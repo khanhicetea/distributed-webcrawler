@@ -1,0 +1,17 @@
+bloomd_servers:
+    - bloom1
+redis_server:
+    host: redis1
+gearman_server:
+    host: gearman1
+    max_tasks: 200
+rethinkdb_server:
+    host: rethink1
+    port: 28015
+    database: webcrawler
+    tables:
+        url_queue: url_queue
+        raw_result: raw_result
+        indexed_result: indexed_result
+crawl_delay: 5
+
