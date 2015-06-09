@@ -4,6 +4,7 @@ worker1:
         - redis1
         - bloom1
         - rethink1
+        - gearman1
     volumes:
         - .:/code
     command: /bin/bash

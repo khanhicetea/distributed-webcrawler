@@ -3,7 +3,8 @@ bloomd_servers:
 redis_server:
     host: redis1
 gearman_server:
-    host: gearman1
+    hosts:
+        - 'gearman1:4730'
     max_tasks: 200
 rethinkdb_server:
     host: rethink1
