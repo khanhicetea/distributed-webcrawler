@@ -28,5 +28,11 @@ rethink1:
         - "8080:8080"
     volumes:
         - rethinkdb_data:/data
+gearman1:
+    image: khanhicetea/gearmand_server:latest
+    expose:
+        - 4730
+    ports:
+        - "4731:4731"
 
 
