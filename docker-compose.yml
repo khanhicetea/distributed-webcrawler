@@ -29,6 +29,17 @@ rethink1:
         - "8080:8080"
     volumes:
         - rethinkdb_data:/data
+# Just for replicating or sharding rethinkdb
+# rethink2:
+#     image: rethinkdb
+#     links:
+#         - rethink1
+#     expose:
+#         - 28015
+#         - 29015
+#     volumes:
+#        - rethinkdb_data_2:/data
+#     command: rethinkdb --join rethink1:29015 --bind all
 gearman1:
     image: khanhicetea/gearmand_server:latest
     ports:
