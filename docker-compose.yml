@@ -31,9 +31,6 @@ rethink1:
         - rethinkdb_data:/data
 gearman1:
     image: khanhicetea/gearmand_server:latest
-    expose:
-        - 4730
     ports:
+        - "4730:4730"
         - "4731:4731"
-
-
