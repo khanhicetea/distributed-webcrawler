@@ -3,3 +3,4 @@ redis>=2.10
 pyaml>=15.5
 gearman>=2.0
 requests>=2.7
+urlnorm>=1.1
