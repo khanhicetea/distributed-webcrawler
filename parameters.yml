@@ -5,7 +5,7 @@ redis_server:
 gearman_server:
     hosts:
         - 'gearman1:4730'
-    max_tasks: 200
+    max_tasks: 100
 rethinkdb_server:
     host: rethink1
     port: 28015

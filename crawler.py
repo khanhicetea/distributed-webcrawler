@@ -50,7 +50,7 @@ def task_listener_crawler(gearman_worker, gearman_job):
 			norm_url = urlnorm.norm(pre_norm_url)
 			if url_frontier.add(norm_url):
 				print "Add ", norm_url, " to redis queue"
-				redis_client.sadd("enqueued_urls", norm_url)
+				redis_client.rpush("urls:enqueued", norm_url)
 		return "ok"
 	else:
 		r.table(raw_result_table).insert({'url': url, 'status': response.status_code}).run(rethink)

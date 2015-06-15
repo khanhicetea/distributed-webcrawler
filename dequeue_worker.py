@@ -37,7 +37,7 @@ def main(argv):
     	num = num_dequeue_urls()
     	if num > 0:
     		del dequeued_ids[:]
-    		cursor = r.table(url_queue_table).limit(num).run(rethink)
+    		cursor = r.table(url_queue_table).order_by(index='ts').limit(num).run(rethink)
     		for row in cursor:
     			dequeued_ids.append(row['id'])
     			gm_client.submit_job("crawler", str(row['url']), background=True)
