@@ -7,7 +7,6 @@ worker1:
         - gearman1
     volumes:
         - .:/code
-    command: /bin/bash
     stdin_open: true
     tty: true
 redis1:

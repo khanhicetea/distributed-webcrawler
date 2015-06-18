@@ -12,4 +12,4 @@ RUN cd /tmp/bloom-python-driver && python setup.py install
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod 755 /entrypoint.sh
 
-ENTRYPOINT ["entrypoint.sh", "master"]
+ENTRYPOINT ["/entrypoint.sh", "master"]

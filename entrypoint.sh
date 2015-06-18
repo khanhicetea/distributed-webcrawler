@@ -6,9 +6,9 @@ then
 	echo "Run master ..."
 	python main.py
 	echo "Run enqueue worker ..."
-	nohup python enqueue_worker.py >/dev/null 2>&1 &
+	nohup python enqueue_worker.py >/tmp/webcrawler.log 2>&1 &
 	echo "Run dequeue worker ..."
-	nohup python dequeue_worker.py >/dev/null 2>&1 &
+	nohup python dequeue_worker.py >/tmp/webcrawler.log 2>&1 &
 	echo "Done !"
 elif [ "$1" = 'crawler' ]
 then
@@ -16,8 +16,9 @@ then
 	for (( i=0; i<=$NUM_WORKERS; i++ ))
 	do
 		echo "Run crawler $i ..."
-		nohup python crawler.py >/dev/null 2>&1 &
+		nohup python crawler.py >/tmp/webcrawler.log 2>&1 &
 	done
 	echo "Done !"
 fi
 
+tail -F /tmp/webcrawler.log
