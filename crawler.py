@@ -13,6 +13,8 @@ import urlnorm
 parameter_file = open("parameters.yml", "r")
 parameters = yaml.load(parameter_file)
 
+except_url_suffixes = ["js", "css", "json", "png", "jpg", "gif", "woff2", "xml", "rss"]
+
 rethink = r.connect(parameters['rethinkdb_server']['host'], parameters['rethinkdb_server']['port']).repl()
 rethink.use(parameters['rethinkdb_server']['database'])
 raw_result_table = parameters['rethinkdb_server']['tables']['raw_result']
@@ -48,7 +50,9 @@ def task_listener_crawler(gearman_worker, gearman_job):
 		for link in (links.pop(0) for _ in xrange(len(links))):
 			pre_norm_url = url_pre_norm(link, urls)
 			norm_url = urlnorm.norm(pre_norm_url)
-			if url_frontier.add(norm_url):
+			norm_parts = urlparse.urlparse(norm_url)
+			ext_url = norm_parts.path.split(".")[-1].lower()
+			if ext_url not in except_url_suffixes and url_frontier.add(norm_url):
 				print "Add ", norm_url, " to redis queue"
 				redis_client.rpush("urls:enqueued", norm_url)
 		return "ok"
