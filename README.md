@@ -11,6 +11,9 @@ It also used cool OpenSource projects :
 
 It's mainly built on Python Language, but you can use many others Languages (C, C++, Java, PHP, NodeJS, ...) to implement.
 
+## Distributed Architecture
+![Distributed Architecture of Web Crawler](http://i.imgur.com/dQkwLJF.png)
+
 ## Requirements
 
 - [Docker](https://www.docker.com/)
