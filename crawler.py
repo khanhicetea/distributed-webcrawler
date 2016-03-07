@@ -40,11 +40,12 @@ def task_listener_crawler(gearman_worker, gearman_job):
 	urls = urlparse.urlparse(url)
 	print "Crawling ", url
 	response = requests.get(url, crawler_headers)
+	print 'Downloaded page'
 	if response.status_code == 200:
 		raw_data = response.text
 		if response.encoding != 'utf8':
 			raw_data = response.text.encode(response.encoding).decode('utf8')
-		r.table(raw_result_table).insert({'url': url, 'raw': raw_data, 'status': 200}).run(rethink)
+		r.table(raw_result_table).insert({'url': url, 'raw': raw_data, 'status': 200}, conflict="replace").run(rethink)
 
 		links = linkregex.findall(raw_data)
 		for link in (links.pop(0) for _ in xrange(len(links))):
@@ -55,9 +56,10 @@ def task_listener_crawler(gearman_worker, gearman_job):
 			if ext_url not in except_url_suffixes and url_frontier.add(norm_url):
 				print "Add ", norm_url, " to redis queue"
 				redis_client.rpush("urls:enqueued", norm_url)
+		print "Done"
 		return "ok"
 	else:
-		r.table(raw_result_table).insert({'url': url, 'status': response.status_code}).run(rethink)
+		r.table(raw_result_table).insert({'url': url, 'status': response.status_code}, conflict: "replace").run(rethink)
 	return "fail"
 
 def main(argv):
