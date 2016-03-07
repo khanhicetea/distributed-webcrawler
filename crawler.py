@@ -59,7 +59,7 @@ def task_listener_crawler(gearman_worker, gearman_job):
 		print "Done"
 		return "ok"
 	else:
-		r.table(raw_result_table).insert({'url': url, 'status': response.status_code}, conflict: "replace").run(rethink)
+		r.table(raw_result_table).insert({'url': url, 'status': response.status_code}, conflict="replace").run(rethink)
 	return "fail"
 
 def main(argv):
