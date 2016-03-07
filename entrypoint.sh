@@ -1,25 +1,12 @@
 #!/bin/bash
-set -x
 
-if [ "$1" = 'master' ]
-then
-	echo "Run master ..." >> /tmp/webcrawler.log
-	python main.py
-	echo "Run enqueue worker ..." >> /tmp/webcrawler.log
-	nohup python enqueue_worker.py >/dev/null 2>&1 &
-	echo "Run dequeue worker ..."
-	nohup python dequeue_worker.py >/dev/null 2>&1 &
-	echo "Done !" >> /tmp/webcrawler.log
-elif [ "$1" = 'crawler' ]
-then
-	NUM_WORKERS=${2:-5}
-	echo "Run $NUM_WORKERS crawlers ..." >> /tmp/webcrawler.log
-	for (( i=0; i<=$NUM_WORKERS; i++ ))
-	do
-		echo "Run crawler $i ..." >> /tmp/webcrawler.log
-		nohup python crawler.py >/dev/null 2>&1 &
-	done
-	echo "Done !" >> /tmp/webcrawler.log
-fi
+sed -i.bak -e "s/\$NUM_WORKERS/$NUM_WORKERS/" /etc/supervisor/conf.d/worker.conf
+
+echo "Checking rethinkdb..." > /tmp/webcrawler.log
+set -x
+while ! curl rethink1:28015; do sleep 1; done
+
+nohup /usr/bin/supervisord -n >>/tmp/webcrawler.log 2>&1 &
+python main.py http://dmoz.org >>/tmp/webcrawler.log 2>&1 &
 
 tail -F /tmp/webcrawler.log

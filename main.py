@@ -30,12 +30,11 @@ def main(argv):
     # Main code here
     print "I'm manager :)"
 
-    seed_url = "http://vnexpress.net/"
-    if 1 in argv:
+    if  len(argv) > 1:
         seed_url = argv[1]
 
-    r.table(url_queue_table).insert({'url': seed_url, 'ts': 0}).run(rethink)
-    print "\t- Inserted the SEED URL : ", seed_url
+    	r.table(url_queue_table).insert({'url': seed_url, 'ts': 0}).run(rethink)
+    	print "\t- Inserted the SEED URL : ", seed_url
 
 if __name__ == "__main__":
     main(sys.argv)

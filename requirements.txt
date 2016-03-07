@@ -4,3 +4,4 @@ pyaml>=15.5
 gearman>=2.0
 requests>=2.7
 urlnorm>=1.1
+reppy>=0.3.1
